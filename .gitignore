@@ -1,0 +1,9 @@
+config*
+lib*
+python3*
+nsp-python
+bin
+pyvenv.cfg
+.venv
+*.pem
+

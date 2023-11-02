@@ -1,0 +1,25 @@
+metrics:
+  aggregate_packets:
+    name: 'aggregate_packets'
+    description: 'Aggregate packets'
+    labels: ['name']
+    json_keys: 
+      count: 'aggregate-packets'
+      octets: 'aggregate-octets'
+  aggregate_octets:
+    name: 'aggregate_octets'
+    description: 'Aggregate octets'
+    labels: ['name']
+    # If there are other keys you can add them here
+  cpu_usage:
+    name: 'cpu_usage'
+    description: 'CPU usage'
+    labels: ['neId']
+    json_keys: 
+      usage: 'cpu-usage'
+  mem_use:
+    name: 'mem_use'
+    description: 'Memory use'
+    labels: ['neId']
+    json_keys: 
+      used: 'memory-used'
