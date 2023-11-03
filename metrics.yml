@@ -1,4 +1,4 @@
-## Define this file based on Topics and counters defined in NSP (Notificatino must be enabled)
+## Define this file based on Topics and counters defined in NSP (Notification must be enabled)
 metrics:
   - topic: 'ns-eg-5715811f-3971-4890-b52d-f536e5a6c50e'
     partition: 0

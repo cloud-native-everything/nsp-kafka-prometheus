@@ -1,4 +1,4 @@
-# Kafka to Prometheus Pyhton App
+# Kafka to Prometheus Python App
 
 ## Setup
 ### Create and Activate Virtual Environment
@@ -19,5 +19,6 @@ pip3 install -r requirements.txt
 ## Usage
 
 ```bash
-./nspk2p-0.1.py --bootstrap 10.10.10.10:9192 --cert catrust.pem --port 8000 --topics topics.yml --metrics metrics.yml
+./nspk2p-0.1.py --bootstrap 10.10.10.10:9192 --cert catrust.pem --port 8000 --config metrics.yml
 ```
+

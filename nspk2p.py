@@ -4,6 +4,7 @@ from prometheus_client import start_http_server, Gauge
 import json
 import argparse
 import sys
+import os
 from datetime import datetime
 import yaml
 from kafka import KafkaConsumer, TopicPartition
@@ -42,11 +43,16 @@ def start_app(bootstrap, cert, port, config, debug):
     print(f"{datetime.now()} - INFO: Prometheus metrics server running on port {port}")
 
     # Connect to Kafka and assign specific partitions
-    consumer = KafkaConsumer(
-        bootstrap_servers=[bootstrap],
-        security_protocol='SSL',
-        ssl_cafile=cert
-    )
+    try:
+        consumer = KafkaConsumer(
+            bootstrap_servers=[bootstrap],
+            security_protocol='SSL',
+            ssl_cafile=cert
+        )
+    except Exception as e:
+        print(f"{datetime.now()} - ERROR: Error creating kafka consumer. {e}")
+        sys.exit(1)    
+
 
     topic_partitions = [TopicPartition(topic['topic'], topic['partition']) for topic in config['metrics']]
     consumer.assign(topic_partitions)
@@ -91,5 +97,9 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"{datetime.now()} - ERROR: Error reading configuration file: {e}")
         sys.exit()
+
+    if not os.path.isfile(args.cert):
+        print(f"{datetime.now()} - ERROR: The file certicate file does not exist. Exiting the application.", file=sys.stderr)
+        sys.exit(1)  # Non-zero exit status indicates an error    
 
     start_app(args.bootstrap, args.cert, args.port, config, debug)
