@@ -1,25 +1,31 @@
+## Define this file based on Topics and counters defined in NSP (Notificatino must be enabled)
 metrics:
-  aggregate_packets:
-    name: 'aggregate_packets'
-    description: 'Aggregate packets'
-    labels: ['name']
-    json_keys: 
-      count: 'aggregate-packets'
-      octets: 'aggregate-octets'
-  aggregate_octets:
-    name: 'aggregate_octets'
-    description: 'Aggregate octets'
-    labels: ['name']
-    # If there are other keys you can add them here
-  cpu_usage:
-    name: 'cpu_usage'
-    description: 'CPU usage'
-    labels: ['neId']
-    json_keys: 
-      usage: 'cpu-usage'
-  mem_use:
-    name: 'mem_use'
-    description: 'Memory use'
-    labels: ['neId']
-    json_keys: 
-      used: 'memory-used'
+  - topic: 'ns-eg-5715811f-3971-4890-b52d-f536e5a6c50e'
+    partition: 0
+    kpiType: 'lsp-egress'  ## coming from telemetry:/base/lsps/lsp-egress
+    counters:
+      aggregate_packets:
+        nsp_counter: 'aggregate-packets'      
+        name: 'aggregate_packets'
+        description: 'Aggregate packets'
+        labels: ['name']
+      aggregate_octets:
+        nsp_counter: 'aggregate-octets'      
+        name: 'aggregate_octets'
+        description: 'Aggregate octets'
+        labels: ['name']    
+  - topic: 'ns-eg-7f1c51b0-db37-4ba8-a157-a801bab51edd'
+    partition: 0
+    kpiType: 'system-info' ## coming from telemetry:/base/system-info/system
+    counters:
+      cpu_usage:
+        nsp_counter: 'cpu-usage'      
+        name: 'cpu_usage'
+        description: 'CPU usage'
+        labels: ['neId']
+      mem_use:
+        nsp_counter: 'memory-used'      
+        name: 'mem_use'
+        description: 'Memory use'
+        labels: ['neId']
+
