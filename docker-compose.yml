@@ -4,7 +4,7 @@ services:
   prometheus:
     image: prom/prometheus:latest
     volumes:
-      - - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
       - '--config.file=/etc/prometheus/prometheus.cfg'
     ports:
