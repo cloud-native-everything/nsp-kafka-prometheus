@@ -4,14 +4,17 @@ services:
   prometheus:
     image: prom/prometheus:latest
     volumes:
-      - ./prometheus:/etc/prometheus
+      - - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--config.file=/etc/prometheus/prometheus.cfg'
     ports:
       - "9090:9090"
 
   grafana:
     image: grafana/grafana:latest
+    volumes:
+      - ./grafana/datasources/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+      - ./grafana/dashboard:/etc/grafana/provisioning/dashboard:ro
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=secret  # Change this to your preferred admin password
     depends_on:
@@ -20,9 +23,9 @@ services:
       - "3000:3000"
 
   kafka-prometheus-exporter:
-    build: .
+    image: ghcr.io/cloud-native-everything/nspk2p:v2311
     environment:
-      - KAFKA_BOOTSTRAP_SERVERS=your_kafka_server:9092
+      - KAFKA_BOOTSTRAP_SERVERS=10.2.16.11:9092
       - CA_CERT_PATH=/app/truststore.pem
       - METRICS_PORT=8000
       - CONFIG_FILE=/app/config.yaml
