@@ -25,7 +25,7 @@ services:
   kafka-prometheus-exporter:
     image: ghcr.io/cloud-native-everything/nspk2p:v2311
     environment:
-      - KAFKA_BOOTSTRAP_SERVERS=10.2.16.11:9092
+      - KAFKA_BOOTSTRAP_SERVERS=10.2.16.11:9192
       - CA_CERT_PATH=/app/truststore.pem
       - METRICS_PORT=8000
       - CONFIG_FILE=/app/metrics.yml
