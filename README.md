@@ -67,6 +67,3 @@ docker run -d -p 8000:8000 --name=myexporter \
 
 This command mounts the CA certificate and the configuration file from your host to the appropriate locations inside the container. Adjust the paths /path/to/your/ca_cert.pem and /path/to/your/config.yaml to the actual paths on your Docker host.
 
-## Contributing
-
-Contributions to this project are welcome. Please fork the repository, make your changes, and submit a pull request.
