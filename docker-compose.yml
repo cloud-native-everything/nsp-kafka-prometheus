@@ -1,26 +1,26 @@
 version: '0.1'
 
 services:
-  prometheus:
-    image: prom/prometheus:latest
-    volumes:
-      - ./prometheus:/etc/prometheus:ro
-    command:
-      - '--config.file=/etc/prometheus/prometheus.cfg'
-    ports:
-      - "9090:9090"
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   volumes:
+  #     - ./prometheus:/etc/prometheus:ro
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.cfg'
+  #   ports:
+  #     - "9090:9090"
 
-  grafana:
-    image: grafana/grafana:latest
-    volumes:
-      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
-      - ./grafana/dashboard:/etc/grafana/provisioning/dashboard:ro
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=secret  # Change this to your preferred admin password
-    depends_on:
-      - prometheus
-    ports:
-      - "3000:3000"
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   volumes:
+  #     - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+  #     - ./grafana/dashboard:/etc/grafana/provisioning/dashboard:ro
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=secret  # Change this to your preferred admin password
+  #   depends_on:
+  #     - prometheus
+  #   ports:
+  #     - "3000:3000"
 
   kafka-prometheus-exporter:
     image: ghcr.io/cloud-native-everything/nspk2p:v2311
@@ -28,9 +28,9 @@ services:
       - KAFKA_BOOTSTRAP_SERVERS=10.2.16.11:9092
       - CA_CERT_PATH=/app/truststore.pem
       - METRICS_PORT=8000
-      - CONFIG_FILE=/app/config.yaml
+      - CONFIG_FILE=/app/metrics.yml
     volumes:
-      - ./:/app
+      - .:/app
     ports:
       - "8000:8000"
 
