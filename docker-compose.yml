@@ -4,7 +4,7 @@ services:
   prometheus:
     image: prom/prometheus:latest
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus:/etc/prometheus:ro
     command:
       - '--config.file=/etc/prometheus/prometheus.cfg'
     ports:
@@ -13,7 +13,7 @@ services:
   grafana:
     image: grafana/grafana:latest
     volumes:
-      - ./grafana/datasources/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
       - ./grafana/dashboard:/etc/grafana/provisioning/dashboard:ro
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=secret  # Change this to your preferred admin password
@@ -30,8 +30,7 @@ services:
       - METRICS_PORT=8000
       - CONFIG_FILE=/app/config.yaml
     volumes:
-      - ./truststore.pem:/app/truststore.pem
-      - ./config.yaml:/app/config.yaml
+      - ./:/app
     ports:
       - "8000:8000"
 
