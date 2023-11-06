@@ -91,6 +91,14 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     debug = 1 if args.debug else 0
+
+    if debug:
+        print(f"{datetime.now()} - DEBUG: This is the path to certificate file: {args.cert}")
+        print(f"{datetime.now()} - DEBUG: This is the path to config file: {args.config}")
+        print(f"{datetime.now()} - DEBUG: This is the input for bootstrap server: {args.bootstrap}")
+        print(f"{datetime.now()} - DEBUG: This is the input for the port: {args.port}") 
+        
+            
     try:
         with open(args.config, 'r') as file:
             config = yaml.safe_load(file)
@@ -98,8 +106,14 @@ if __name__ == '__main__':
         print(f"{datetime.now()} - ERROR: Error reading configuration file: {e}")
         sys.exit()
 
+    if debug:
+        print(f"{datetime.now()} - DEBUG: This is the path to certificate file: {args.cert}")
+        print(f"{datetime.now()} - DEBUG: This is the path to config file: {args.config}")
+        print(f"{datetime.now()} - DEBUG: This is the input for bootstrap server: {args.bootstrap}")
+        print(f"{datetime.now()} - DEBUG: This is the input for the port: {args.port}")    
+
     if not os.path.isfile(args.cert):
-        print(f"{datetime.now()} - ERROR: The file certicate file does not exist. Exiting the application.", file=sys.stderr)
+        print(f"{datetime.now()} - ERROR: The file certificate file does not exist. Exiting the application.", file=sys.stderr)
         sys.exit(1)  # Non-zero exit status indicates an error    
 
     start_app(args.bootstrap, args.cert, args.port, config, debug)
