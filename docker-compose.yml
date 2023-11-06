@@ -31,8 +31,6 @@ services:
       - CONFIG_FILE=/app/metrics.yml
     volumes:
       - .:/app
-    command:
-      - '--debug'  
     ports:
       - "8000:8000"
 
