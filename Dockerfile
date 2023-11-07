@@ -22,4 +22,4 @@ EXPOSE 8000
 #ENV CONFIG_FILE=/app/metrics.yml
 
 # Run the Python application when the container launches
-CMD python3 ./nspk2p.py --bootstrap ${KAFKA_BOOTSTRAP_SERVERS} --cert ${CA_CERT_PATH} --port ${METRICS_PORT} --config ${CONFIG_FILE} --debug
+CMD python3 ./nspk2p.py --bootstrap ${KAFKA_BOOTSTRAP_SERVERS} --cert ${CA_CERT_PATH} --port ${METRICS_PORT} --config ${CONFIG_FILE}
