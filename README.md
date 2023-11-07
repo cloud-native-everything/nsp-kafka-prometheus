@@ -39,31 +39,79 @@ Ensure to replace the bootstrap server address, certificate, port, and configura
 
 ## Docker image
 
-Here's how you would build and run the container:
+Here's how you would build and run the container or pull it in case you don't want to build it on your own:
 
 Build your Docker image:
 ```bash
-docker build -t nsp-kafka-prometheus-exporter .
+docker build -t ghcr.io/cloud-native-everything/nsp-kafka-prometheus:v2311 .
+```
+The package is also publicly available in case you want to skip this step.
+```bash
+docker pull ghcr.io/cloud-native-everything/nsp-kafka-prometheus:v2311
 ```
 
 Run a container from the image:
 ```bash
 docker run -d -p 8000:8000 --name=myexporter \
+  -v .:/app
   -e KAFKA_BOOTSTRAP_SERVERS=your_kafka_server:9092 \
-  -e CA_CERT_PATH=/path/inside/container/ca_cert.pem \
+  -e CA_CERT_PATH=/app/ca_cert.pem \
   -e METRICS_PORT=8000 \
-  -e CONFIG_FILE=/path/inside/container/config.yaml \
-  nsp-kafka-prometheus-exporter
+  -e CONFIG_FILE=/app/config.yaml \
+  ghcr.io/cloud-native-everything/nsp-kafka-prometheus:v2311
 ```
 
-In the docker run command, you would need to change the environment variables to point to the correct Kafka server, certificate file, and configuration file paths as necessary. Also, you would need to make sure that the CA certificate file and configuration file are available inside the container, either by copying them into the image at build time or by using Docker volumes to mount them at runtime. For example:
+In the docker run command, you would need to change the environment variables to point to the correct Kafka server, certificate file, and configuration file paths as necessary. Also, you would need to make sure that the CA certificate file and configuration file are available inside the container, either by copying them into the image at build time or by using Docker volumes to mount them at runtime. In the example, `-v .:/app` is mounting the local directory assuming all required fikles are in it. 
+
+
+This command mounts the CA certificate and the configuration file from your host to the appropriate locations inside the container. Adjust the paths /app/ca_cert.pem and /app/config.yaml to the actual paths are you planing to use.
+
+## Docker Compose Setup
+
+This project can be run using Docker Compose, which orchestrates the deployment of the Prometheus, Grafana, and Kafka Prometheus Exporter services.
+
+### Prerequisites
+- Docker and Docker Compose must be installed on your system.
+- Ensure that the `prometheus.cfg`, `metrics.yml`, and the necessary Grafana provisioning files are present in the respective directories.
+
+### Running the Services
+
+To start the services, follow these steps:
+
+1. **Set Environment Variables:**
+   Optionally, you can set the `NSP_BOOTSTRAP_SERVER` environment variable to your Kafka bootstrap server address if it's different from the default in the `docker-compose.yml` file. Similarly, update the `CA_KAFKA_CERT` if you have a different certificate filename.
+
+   ```bash
+   export NSP_BOOTSTRAP_SERVER=your_kafka_bootstrap_server_address
+   export CA_KAFKA_CERT=your_certificate_filename.pem
+
+2. **Start Services:**
+Navigate to the directory containing your docker-compose.yml file and run the following command:
 
 ```bash
-docker run -d -p 8000:8000 --name=myexporter \
-  -v /path/to/your/ca_cert.pem:/app/ca_cert.pem \
-  -v /path/to/your/config.yaml:/app/config.yaml \
-  nsp-kafka-prometheus-exporter
+docker-compose up -d
 ```
+This command will start the Prometheus, Grafana, and Kafka Prometheus Exporter services in detached mode.
 
-This command mounts the CA certificate and the configuration file from your host to the appropriate locations inside the container. Adjust the paths /path/to/your/ca_cert.pem and /path/to/your/config.yaml to the actual paths on your Docker host.
+3. **Accessing the Services:**
+
+* Prometheus will be available at `http://<your-server-ip>:9090`.
+* Grafana will be available at `http://<your-server-ip>:3000`. The default login is admin and the password is secret (unless you've changed the `GF_SECURITY_ADMIN_PASSWORD` variable).
+4. **Stopping the Services:**
+To stop and remove all the running services, you can use the following command:
+```bash
+docker-compose down
+```
+### Troubleshooting
+* If you encounter any issues with starting the services, you can check the logs for each service using:
+```bash
+docker-compose logs service_name
+```
+* Ensure that the volume mounts correspond to the actual directories and file paths on your host.
+
+## Custom Configuration
+* For custom configuration of Prometheus or Grafana, modify the configuration files located in `./prometheus/` and `./grafana/` directories respectively.
+* The Kafka Prometheus Exporter service is configured via the metrics.yml file. If you need to make changes, update this file accordingly.
+
+Replace `<your-server-ip>` with the actual IP address of your server. If you're running it locally.
 
