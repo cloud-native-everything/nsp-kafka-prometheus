@@ -1,4 +1,4 @@
-version: '0.1'
+version: '0.2'
 
 services:
   prometheus:
@@ -7,6 +7,8 @@ services:
       - ./prometheus:/etc/prometheus:ro
     command:
       - '--config.file=/etc/prometheus/prometheus.cfg'
+    networks:
+      - backend  
     ports:
       - "9090:9090"
 
@@ -19,6 +21,8 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=secret  # Change this to your preferred admin password
     depends_on:
       - prometheus
+    networks:
+      - backend       
     ports:
       - "3000:3000"
 
@@ -31,7 +35,10 @@ services:
       - CONFIG_FILE=/app/metrics.yml
     volumes:
       - .:/app
+    networks:
+      - backend       
     ports:
       - "8000:8000"
 
-
+networks:
+  backend:
