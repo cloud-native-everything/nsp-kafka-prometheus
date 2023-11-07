@@ -1,6 +1,8 @@
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
+LABEL org.opencontainers.image.source https://github.com/cloud-native-everything/nsp-kafka-prometheus
+
 # Set the working directory in the container to /app
 WORKDIR /app
 
