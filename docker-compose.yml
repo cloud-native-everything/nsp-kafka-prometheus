@@ -35,7 +35,6 @@ services:
       - CONFIG_FILE=/app/metrics.yml
     volumes:
       - .:/app
-    command: python3 ./nspk2p.py --bootstrap $KAFKA_BOOTSTRAP_SERVERS --cert $CA_CERT_PATH --port $METRICS_PORT --config $CONFIG_FILE --debug  ## you can remove debug to avoid verbose output
     networks:
       - backend       
     ports:
