@@ -15,8 +15,8 @@ services:
   grafana:
     image: grafana/grafana:latest
     volumes:
-      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
-      - ./grafana/dashboard:/etc/grafana/provisioning/dashboard:ro
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboard:/etc/grafana/provisioning/dashboard
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=secret  # Change this to your preferred admin password
     depends_on:
