@@ -15,6 +15,10 @@ NSP harnesses gRPC for telemetry extraction, funneling data and events into Kafk
 
 ### Create and Activate Virtual Environment
 
+tested with:
+* NSP 23.8
+* Linux Rocky 9
+
 It is recommended to use a virtual environment to isolate project dependencies. Use the following commands to create and activate a virtual environment:
 
 ```bash
