@@ -1,6 +1,6 @@
 # Kafka to Prometheus Python App for NSP
 
-This application serves as a bridge to consume messages from Kafka and export them as Prometheus metrics for Network Services Platform Telemtry info (Insight Administrator).
+This application serves as a bridge to consume messages from Kafka and export them as Prometheus metrics for Network Services Platform Telemetry info (Insight Administrator).
 
 The Nokia NSP is an advanced software solution providing intent-based network optimization and automation across multi-vendor environments. It ensures efficient resource utilization, reduces operational complexity, and enhances network performance through intelligent, automated decision-making and actions.
 
@@ -38,6 +38,10 @@ To start the application and begin consuming messages from Kafka to export as Pr
 Ensure to replace the bootstrap server address, certificate, port, and configuration file path with the ones applicable to your setup.
 
 ## Docker image
+
+tested with:
+* Docker Compose version v2.21.0
+* Docker Engine – Community Version 24.0.6
 
 Here's how you would build and run the container or pull it in case you don't want to build it on your own:
 
@@ -115,3 +119,35 @@ docker-compose logs service_name
 
 Replace `<your-server-ip>` with the actual IP address of your server. If you're running it locally.
 
+## Troubleshooting
+
+* How can I get the certificate form my NSP Server? 
+Get it form your NSP Node (k8s node) like this `kubectl cp default/nspos-kafka-0:/opt/bitnami/kafka/config/certs/kafka.truststore.jks ./kafka.truststore.jks`
+Then, you need to copy it to the repo folder you git-cloned. And convert it to PEM format. I did my own in two steps, with something like this:
+```bash
+keytool -importkeystore -srckeystore kafka.truststore.jks -srcstorepass $TRUST_PASS -srcstoretype JKS -destkeystore truststore.p12 -deststoretype PKCS12 -deststorepass $TRUST_PASS
+openssl pkcs12 -in truststore.p12 -nokeys -out truststore.pem -passin pass:$TRUST_PASS
+```
+TRUST_PASS is your password set in the nsp-config.yml file when you deployed NSP
+
+* --bootstrap server I assume is the NSP server?
+Most of cases, the bootstrap server is your NSP IP and the port 9192 (i.e. 10.10.10.10:9192)
+
+
+# Disclaimer
+
+**Note:** The code and information provided in this repository are for educational and informational purposes only. By using any code, scripts, or information from this repository, you agree that:
+
+1. **No Warranty**: The code is provided "as is" without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. 
+
+2. **No Liability**: In no event shall the author(s) or the employer(s) be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services, loss of use, data, or profits, or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
+
+3. **Use at Your Own Risk**: The use of code and information from this repository is entirely at your own risk. You are solely responsible for any technical or financial consequences that may result from using this code.
+
+4. **Compliance**: You are responsible for ensuring that your use of the code complies with all relevant laws, regulations, and ethical standards.
+
+5. **No Support**: The author(s) and the employer(s) are not obligated to provide any support or assistance related to the code or its usage.
+
+Please exercise caution and due diligence when using the code and information provided in this repository. Always thoroughly review and test any code before using it in production environments. This disclaimer is subject to change without notice. By using the code and information in this repository, you acknowledge and agree to this disclaimer.
+
+If you do not agree with this disclaimer, do not use the code or information provided in this repository.
