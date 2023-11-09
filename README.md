@@ -121,8 +121,8 @@ Replace `<your-server-ip>` with the actual IP address of your server. If you're 
 
 ## Troubleshooting
 
-* How can I get the certificate form my NSP Server? 
-Get it form your NSP Node (k8s node) like this `kubectl cp default/nspos-kafka-0:/opt/bitnami/kafka/config/certs/kafka.truststore.jks ./kafka.truststore.jks`
+* **How can I get the certificate form my NSP Server?** 
+Get it from your NSP Node (k8s node) like this `kubectl cp default/nspos-kafka-0:/opt/bitnami/kafka/config/certs/kafka.truststore.jks ./kafka.truststore.jks`
 Then, you need to copy it to the repo folder you git-cloned. And convert it to PEM format. I did my own in two steps, with something like this:
 ```bash
 keytool -importkeystore -srckeystore kafka.truststore.jks -srcstorepass $TRUST_PASS -srcstoretype JKS -destkeystore truststore.p12 -deststoretype PKCS12 -deststorepass $TRUST_PASS
@@ -130,7 +130,7 @@ openssl pkcs12 -in truststore.p12 -nokeys -out truststore.pem -passin pass:$TRUS
 ```
 TRUST_PASS is your password set in the nsp-config.yml file when you deployed NSP
 
-* --bootstrap server I assume is the NSP server?
+* **--bootstrap server I assume is the NSP server?**
 Most of cases, the bootstrap server is your NSP IP and the port 9192 (i.e. 10.10.10.10:9192)
 
 
