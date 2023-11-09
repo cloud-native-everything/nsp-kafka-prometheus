@@ -121,7 +121,7 @@ Replace `<your-server-ip>` with the actual IP address of your server. If you're 
 
 ## Troubleshooting
 
-* **How can I get the certificate form my NSP Server?** 
+* **How can I get the certificate from my NSP Server?** 
 Get it from your NSP Node (k8s node) like this `kubectl cp default/nspos-kafka-0:/opt/bitnami/kafka/config/certs/kafka.truststore.jks ./kafka.truststore.jks`
 Then, you need to copy it to the repo folder you git-cloned. And convert it to PEM format. I did my own in two steps, with something like this:
 ```bash
