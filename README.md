@@ -10,6 +10,8 @@ Apache Kafka is a high-throughput distributed messaging system, while Prometheus
 
 NSP harnesses gRPC for telemetry extraction, funneling data and events into Kafka topics, ready for integrated applications and analytics.
 
+![NSP Python Prometheus Exporter for Kafka - Telemetry - Top Level Architecture](images/nsp-python-prometheus-exporter-kafka-telemetry.png)
+
 
 ## Setup Instructions
 
