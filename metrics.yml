@@ -1,6 +1,6 @@
 ## Define this file based on Topics and counters defined in NSP (Notification must be enabled)
 metrics:
-  - topic: 'ns-eg-5715811f-3971-4890-b52d-f536e5a6c50e'
+  - topic: 'ns-eg-f4637be1-91f4-4a21-84e2-025bbcb3df24'
     partition: 0
     kpiType: 'lsp-egress'  ## coming from telemetry:/base/lsps/lsp-egress
     counters:
@@ -8,12 +8,12 @@ metrics:
         nsp_counter: 'aggregate-packets'      
         name: 'aggregate_packets'
         description: 'Aggregate packets'
-        labels: ['name']
+        labels: ['objectId']
       aggregate_octets:
         nsp_counter: 'aggregate-octets'      
         name: 'aggregate_octets'
         description: 'Aggregate octets'
-        labels: ['name']    
+        labels: ['objectId']    
   - topic: 'ns-eg-7f1c51b0-db37-4ba8-a157-a801bab51edd'
     partition: 0
     kpiType: 'system-info' ## coming from telemetry:/base/system-info/system
@@ -22,10 +22,18 @@ metrics:
         nsp_counter: 'cpu-usage'      
         name: 'cpu_usage'
         description: 'CPU usage'
-        labels: ['neId']
+        labels: ['objectId']
       mem_use:
         nsp_counter: 'memory-used'      
         name: 'mem_use'
         description: 'Memory use'
-        labels: ['neId']
-
+        labels: ['objectId']
+  - topic: 'ns-eg-9c31f5fc-cdf6-4644-b4eb-14c13a1c1409'
+    partition: 0
+    kpiType: 'interfaces' ## coming from telemetry:/base/interfaces/utilization
+    counters:
+      transmitted_octets:
+        nsp_counter: 'transmitted-octets'      
+        name: 'transmitted_octets'
+        description: 'Transmitted Octects'
+        labels: ['objectId']
