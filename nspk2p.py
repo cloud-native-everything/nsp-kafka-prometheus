@@ -28,14 +28,22 @@ def update_metrics(telemetry_data, topic_metrics, debug):
             print(f"{datetime.now()} - DEBUG: topic_metrics key: {key}")
             print(f"{datetime.now()} - DEBUG: topic_metrics metric: {metric}")
         metric_obj = metrics_gauge[metric['name']]
-        #json_keys = metric['json_keys']
-        #if debug:
-        #    print(f"{datetime.now()} - DEBUG: topic_metrics metric json_keys: {json_keys}")        
-        labels = {label: telemetry_data[label] for label in metric['labels']}
+        # Replace dashes with underscores in label names
+        labels = {label.replace('-', '_'): telemetry_data.get(label, '') for label in metric['labels']}
+        # Concatenate labels if there are multiple
+        if len(metric['labels']) > 1:
+            concatenated_label = '_'.join(labels[label.replace('-', '_')] for label in metric['labels'])
+            labels = {'concatenated_label': concatenated_label}
+            if debug:
+                print(f"concatenated_label: {labels}")
+            metric_obj = metric_obj.labels(concatenated_label=concatenated_label)
+        else:
+            metric_obj = metric_obj.labels(**labels)
         if debug:
-            print(f"{datetime.now()} - DEBUG: topic_metrics metric labels: {labels}")         
-#        metric_obj.labels(**labels).set(telemetry_data[json_keys[key]])
-        metric_obj.labels(**labels).set(telemetry_data[metric['nsp_counter']])
+            print(f"{datetime.now()} - DEBUG: topic_metrics metric labels: {labels}")
+        metric_obj.set(telemetry_data[metric['nsp_counter']])
+
+
 
 def start_app(bootstrap, cert, port, config, debug):
     # Start up the server to expose the metrics.
@@ -51,8 +59,7 @@ def start_app(bootstrap, cert, port, config, debug):
         )
     except Exception as e:
         print(f"{datetime.now()} - ERROR: Error creating kafka consumer. {e}")
-        sys.exit(1)    
-
+        sys.exit(1)
 
     topic_partitions = [TopicPartition(topic['topic'], topic['partition']) for topic in config['metrics']]
     consumer.assign(topic_partitions)
@@ -60,11 +67,21 @@ def start_app(bootstrap, cert, port, config, debug):
     # Initialize Prometheus gauges
     for metric in config['metrics']:
         for counter_name, counter_info in metric['counters'].items():
-            metrics_gauge[counter_info['name']] = Gauge(
-                counter_info['name'],
-                counter_info['description'],
-                counter_info['labels']
-            )
+            # Replace dashes with underscores in label names
+            sanitized_labels = [label.replace('-', '_') for label in counter_info['labels']]
+            # Check if there are multiple labels to concatenate
+            if len(sanitized_labels) > 1:
+                metrics_gauge[counter_info['name']] = Gauge(
+                    counter_info['name'],
+                    counter_info['description'],
+                    ['concatenated_label']
+                )
+            else:
+                metrics_gauge[counter_info['name']] = Gauge(
+                    counter_info['name'],
+                    counter_info['description'],
+                    sanitized_labels
+                )
 
     # Consume messages from Kafka
     for message in consumer:
@@ -73,13 +90,14 @@ def start_app(bootstrap, cert, port, config, debug):
         data = parse_kafka_message(message.value)
         if data:
             telemetry_data = data.get('data', {}).get('ietf-restconf:notification', {}).get('nsp-kpi:real_time_kpi-event')
-            if telemetry_data['kpiType']:
+            if telemetry_data and telemetry_data.get('kpiType'):
                 print(f"{datetime.now()} - INFO: Processing Telemetry Data from {message.topic}: {telemetry_data['kpiType']}")
                 for metric_config in config['metrics']:
                     if message.topic == metric_config['topic'] and metric_config['kpiType'] in telemetry_data['kpiType']:
-                        update_metrics(telemetry_data, metric_config['counters'],debug)
+                        update_metrics(telemetry_data, metric_config['counters'], debug)
             else:
-                print(f"{datetime.now()} - ERROR: Error getting telemetry_data['kpiType']: {telemetry_data['kpiType']}")            
+                print(f"{datetime.now()} - ERROR: Error getting telemetry_data['kpiType']: {telemetry_data.get('kpiType', 'N/A')}")
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Kafka to Prometheus (HTTP server working as source)')

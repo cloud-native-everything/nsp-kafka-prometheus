@@ -1,20 +1,30 @@
 ## Define this file based on Topics and counters defined in NSP (Notification must be enabled)
 metrics:
-  - topic: 'ns-eg-f4637be1-91f4-4a21-84e2-025bbcb3df24'
+  # - topic: 'ns-eg-f4637be1-91f4-4a21-84e2-025bbcb3df24'
+  #   partition: 0
+  #   kpiType: 'lsp-egress'  ## coming from telemetry:/base/lsps/lsp-egress
+  #   counters:
+  #     aggregate_packets:
+  #       nsp_counter: 'aggregate-packets'      
+  #       name: 'aggregate_packets'
+  #       description: 'Aggregate packets'
+  #       labels: ['objectId']
+  #     aggregate_octets:
+  #       nsp_counter: 'aggregate-octets'      
+  #       name: 'aggregate_octets'
+  #       description: 'Aggregate octets'
+  #       labels: ['objectId']   
+  - topic: 'ns-eg-6fef75a8-9476-406b-9efe-795cb4371f94'
     partition: 0
-    kpiType: 'lsp-egress'  ## coming from telemetry:/base/lsps/lsp-egress
+    kpiType: 'router_bgp_neighbor_statistics'  ## coming from telemetry:/base/sros-router/router_bgp_neighbor_statistics
     counters:
       aggregate_packets:
-        nsp_counter: 'aggregate-packets'      
-        name: 'aggregate_packets'
-        description: 'Aggregate packets'
-        labels: ['objectId']
-      aggregate_octets:
-        nsp_counter: 'aggregate-octets'      
-        name: 'aggregate_octets'
-        description: 'Aggregate octets'
-        labels: ['objectId']    
-  - topic: 'ns-eg-7f1c51b0-db37-4ba8-a157-a801bab51edd'
+        nsp_counter: 'family-prefix_sr-policy-ipv6_sent'      
+        name: 'prefix_flow_vpn_ipv4_sent'
+        description: 'Prefix Flow VPN IPV4 Sent'
+        #labels: ['objectId']      
+        labels: ['neId','objectId']      
+  - topic: 'ns-eg-0dc98268-a1df-442d-8c44-c5dd1571e040'
     partition: 0
     kpiType: 'system-info' ## coming from telemetry:/base/system-info/system
     counters:
@@ -28,12 +38,12 @@ metrics:
         name: 'mem_use'
         description: 'Memory use'
         labels: ['objectId']
-  - topic: 'ns-eg-9c31f5fc-cdf6-4644-b4eb-14c13a1c1409'
-    partition: 0
-    kpiType: 'interfaces' ## coming from telemetry:/base/interfaces/utilization
-    counters:
-      transmitted_octets:
-        nsp_counter: 'transmitted-octets'      
-        name: 'transmitted_octets'
-        description: 'Transmitted Octects'
-        labels: ['objectId']
+  # - topic: 'ns-eg-93bd2858-bc05-40fe-847c-8c624515cf40'
+  #   partition: 0
+  #   kpiType: 'interfaces' ## coming from telemetry:/base/interfaces/utilization
+  #   counters:
+  #     transmitted_octets:
+  #       nsp_counter: 'transmitted-octets'      
+  #       name: 'transmitted_octets'
+  #       description: 'Transmitted Octects'
+  #       labels: ['objectId']
