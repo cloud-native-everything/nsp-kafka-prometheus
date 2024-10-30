@@ -1,29 +1,33 @@
 ## Define this file based on Topics and counters defined in NSP (Notification must be enabled)
 metrics:
-  # - topic: 'ns-eg-f4637be1-91f4-4a21-84e2-025bbcb3df24'
-  #   partition: 0
-  #   kpiType: 'lsp-egress'  ## coming from telemetry:/base/lsps/lsp-egress
-  #   counters:
-  #     aggregate_packets:
-  #       nsp_counter: 'aggregate-packets'      
-  #       name: 'aggregate_packets'
-  #       description: 'Aggregate packets'
-  #       labels: ['objectId']
-  #     aggregate_octets:
-  #       nsp_counter: 'aggregate-octets'      
-  #       name: 'aggregate_octets'
-  #       description: 'Aggregate octets'
-  #       labels: ['objectId']   
-  - topic: 'ns-eg-6fef75a8-9476-406b-9efe-795cb4371f94'
+  - topic: 'ns-eg-f3e0581f-9e40-422c-83a5-3dc26cd38426'
+    partition: 0
+    kpiType: 'lsp-egress'  ## coming from telemetry:/base/lsps/lsp-egress
+    counters:
+      aggregate_packets:
+        nsp_counter: 'aggregate-packets'      
+        name: 'aggregate_packets'
+        description: 'Aggregate packets'
+        labels: ['objectId']
+      aggregate_octets:
+        nsp_counter: 'aggregate-octets'      
+        name: 'aggregate_octets'
+        description: 'Aggregate octets'
+        labels: ['objectId']   
+  - topic: 'ns-eg-bcc6d2df-35e6-46cc-9762-3140492030db'
     partition: 0
     kpiType: 'router_bgp_neighbor_statistics'  ## coming from telemetry:/base/sros-router/router_bgp_neighbor_statistics
     counters:
-      aggregate_packets:
-        nsp_counter: 'family-prefix_sr-policy-ipv6_sent'      
-        name: 'prefix_flow_vpn_ipv4_sent'
-        description: 'Prefix Flow VPN IPV4 Sent'
-        #labels: ['objectId']      
+      established_transitions:
+        nsp_counter: 'established-transitions'      
+        name: 'established_transitions'
+        description: 'Established Transitions'
         labels: ['neId','objectId']      
+      in_update_elapsed_time:
+        nsp_counter: 'in-update-elapsed-time'      
+        name: 'in_update_elapsed_time'
+        description: 'In Update Elapsed Time'
+        labels: ['neId','objectId']              
   - topic: 'ns-eg-0dc98268-a1df-442d-8c44-c5dd1571e040'
     partition: 0
     kpiType: 'system-info' ## coming from telemetry:/base/system-info/system
@@ -33,11 +37,35 @@ metrics:
         name: 'cpu_usage'
         description: 'CPU usage'
         labels: ['objectId']
-      mem_use:
+      memory_used:
         nsp_counter: 'memory-used'      
-        name: 'mem_use'
+        name: 'memory_used'
         description: 'Memory use'
         labels: ['objectId']
+      memory_available:
+        nsp_counter: 'memory-available'      
+        name: 'memory_available'
+        description: 'Memory Available'
+        labels: ['objectId']   
+      memory_allocated:
+        nsp_counter: 'memory-allocated'      
+        name: 'memory_allocated'
+        description: 'Memory Allocated'
+        labels: ['objectId'] 
+      memory_used_periodic:
+        nsp_counter: 'memory-used-periodic'      
+        name: 'memory_used_periodic'
+        description: 'Memory Used Periodic'
+        labels: ['objectId']
+  - topic: 'ns-eg-748d7e3c-0194-4b2b-85ca-bf6dd72ca1ad'
+    partition: 0
+    kpiType: 'router_bgp_statistics'  ## coming from telemetry:/base/sros-router/router_bgp_statistics
+    counters:
+      bgp_paths:
+        nsp_counter: 'bgp-paths'      
+        name: 'bgp_paths'
+        description: 'BGP Paths'
+        labels: ['neId','objectId']                                
   # - topic: 'ns-eg-93bd2858-bc05-40fe-847c-8c624515cf40'
   #   partition: 0
   #   kpiType: 'interfaces' ## coming from telemetry:/base/interfaces/utilization

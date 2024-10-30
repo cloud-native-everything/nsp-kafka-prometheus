@@ -87,7 +87,12 @@ def main():
     bootstrap_servers = '10.2.16.11:9192'
     group_id = 'my-group'
     ssl_ca_location = 'truststore.pem'
-    topic = 'ns-eg-6fef75a8-9476-406b-9efe-795cb4371f94'
+    #topic = 'ns-eg-5ac43fe9-00f3-4817-ab32-a695712b5395'  ##{ "categories": [ { "name": "NSP-FAULT", "propertyFilter": "severity = 'info'" } ], "asyncCreate": "false", "persist": "true", "clientId":"FM" }
+    #topic = 'ns-eg-062534de-68d8-4000-87bd-88988cbf0e42'  ##{ "categories": [ { "name": "NSP-EQUIPMENT" } ], "asyncCreate": "false", "persist": "true", "clientId":"FM" }
+    #topic = 'ns-eg-0dc98268-a1df-442d-8c44-c5dd1571e040'  ## system-info
+    #topic = 'ns-eg-f3e0581f-9e40-422c-83a5-3dc26cd38426'  ## lsp octects stats
+    topic = 'ns-eg-748d7e3c-0194-4b2b-85ca-bf6dd72ca1ad' ## telemetry:/base/sros-router/router_bgp_statistics
+    #topic = 'nsp-act-action-event'  ## treshold indicator events
     partition = 0
 
     consumer = create_consumer(bootstrap_servers, group_id, ssl_ca_location)

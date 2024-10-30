@@ -5,7 +5,7 @@ on:
 env:
 
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}:v2311
+  IMAGE_NAME: ${{ github.repository }}:v2407
 
 
 jobs:
