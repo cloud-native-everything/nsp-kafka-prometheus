@@ -91,7 +91,8 @@ def main():
     #topic = 'ns-eg-062534de-68d8-4000-87bd-88988cbf0e42'  ##{ "categories": [ { "name": "NSP-EQUIPMENT" } ], "asyncCreate": "false", "persist": "true", "clientId":"FM" }
     #topic = 'ns-eg-0dc98268-a1df-442d-8c44-c5dd1571e040'  ## system-info
     #topic = 'ns-eg-f3e0581f-9e40-422c-83a5-3dc26cd38426'  ## lsp octects stats
-    topic = 'ns-eg-748d7e3c-0194-4b2b-85ca-bf6dd72ca1ad' ## telemetry:/base/sros-router/router_bgp_statistics
+    #topic = 'ns-eg-748d7e3c-0194-4b2b-85ca-bf6dd72ca1ad' ## telemetry:/base/sros-router/router_bgp_statistics
+    topic = 'ns-eg-166d3dff-458f-4c02-a1f2-253c4dd965eb' ## telemetry:/base/sros-port/port_statistics  filter: /nsp-equipment:network/network-element/hardware-component/port[oper-state='enabled']
     #topic = 'nsp-act-action-event'  ## treshold indicator events
     partition = 0
 
