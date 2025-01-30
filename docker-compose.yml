@@ -29,7 +29,7 @@ services:
     restart: always  
 
   kafka-prometheus-exporter:
-    image: ghcr.io/cloud-native-everything/nsp-kafka-prometheus:v2311
+    image: ghcr.io/cloud-native-everything/nsp-kafka-prometheus:v2501
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=${NSP_BOOTSTRAP_SERVER:-10.2.16.11:9192}
       - CA_CERT_PATH=/app/${CA_KAFKA_CERT:-truststore.pem}

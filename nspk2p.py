@@ -91,7 +91,8 @@ def start_app(bootstrap, cert, port, config, debug):
         if data:
             telemetry_data = data.get('data', {}).get('ietf-restconf:notification', {}).get('nsp-kpi:real_time_kpi-event')
             if telemetry_data and telemetry_data.get('kpiType'):
-                print(f"{datetime.now()} - INFO: Processing Telemetry Data from {message.topic}: {telemetry_data['kpiType']}")
+                if debug:
+                    print(f"{datetime.now()} - DEBUG: Processing Telemetry Data from {message.topic}: {telemetry_data['kpiType']}")
                 for metric_config in config['metrics']:
                     if message.topic == metric_config['topic'] and metric_config['kpiType'] in telemetry_data['kpiType']:
                         update_metrics(telemetry_data, metric_config['counters'], debug)
